@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Chatbot - AI Healthcare Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="main-wrapper">
@@ -167,7 +167,7 @@
             sendMessage();
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const textarea = document.getElementById('chat_bot');
             const question = textarea.value.trim();
             
@@ -179,30 +179,13 @@
             textarea.value = '';
             
             document.getElementById('loader').style.display = 'flex';
-
-            try {
-                const response =await fetch('/ask',{
-                    method:'POST',
-                    headers: {
-                        'Content-Type':'application/json',
-                    },
-                    body: JSON.stringify({question:question})
-                });
-                const data = await response.json();
+            
+            setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
-
-                if (data.error) {
-                    addMessage('Sorry, there was an error: ' + data.error, 'bot');
-                } else {
-                    addMessage(data.answer, 'bot');
-                }
-                
-            } catch (error) {
-                document.getElementById('loader').style.display = 'none';
-                addMessage('Sorry, there was an error connecting to the server.', 'bot');
-                console.error('Error:', error);
-            }
+                addMessage('This is a demo response. Connect Flask backend for actual answers from your medical knowledge base.', 'bot');
+            }, 2000);
         }
+
         function addMessage(text, sender) {
             const container = document.getElementById('messagesContainer');
             const messageDiv = document.createElement('div');
